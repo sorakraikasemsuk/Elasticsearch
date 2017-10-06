@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">Insert</div>
+        <button type="button" class="btn btn-primary" onclick="InsertContent()">Insert</button>
+    </div>
+    <div class="row">
+        <div class="col-md-12">Update</div>
+        <button type="button" class="btn btn-primary" onclick="UpdateContent()">Update</button>
+    </div>
+    <div class="row">
+        <div class="col-md-12">Get</div>
+        <input type="text" class="form-control" id="GetByIdentify" />
+        <button type="button" class="btn btn-primary" onclick="GetContent()">Get</button>
+        <div class="col-md-12 GetByIdentify" >
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">Delete</div>
+        <input type="text" class="form-control" id="delete" />
+        <button type="button" class="btn btn-danger" onclick="DeleteContent()">Delete</button>
+    </div>
+    <div class="row">
+        <div class="col-md-12">Search</div>
+        <input type="text" class="form-control" id="search" />
+        <button type="button" class="btn btn-success" onclick="SearchAll()">Search</button>
+        
+    </div>
+</div>
+@section scripts{
+<script type="text/javascript">
+    $(document).ready(function () {
+        
+    });
+    function InsertContent() {
+        $.ajax({
+            url: '/Home/InsertContent',
+            type: 'POST',
+            data: {}
+        });
+    }
+    function UpdateContent() {
+        $.ajax({
+            url: '/Home/UpdateContent',
+            type: 'POST',
+            data: {
+                _id: 'AV7x7YCFgp0EU-kjP4pt'
+            }
+        });
+    }
+    function DeleteContent() {
+        $.ajax({
+            url: '/Home/DeleteContent',
+            type: 'POST',
+            data: {
+                _id: 'AV7ySN7Pgp0EU-kjP4p9'
+            },
+            success: function (data) {
+
+            }
+        });
+    }
+    function GetContent() {
+        $.ajax({
+            url: '/Home/GetContent',
+            type: 'POST',
+            data: {
+                _id: $('#GetByIdentify').val() == '' ? 0 : $('#GetByIdentify').val()
+            },
+            success: function (data) {
+                if (data.ResponseCode == 200) {
+                    $('.GetByIdentify').html(JSON.stringify(data.Data, null, 2));
+                } else {
+                    $('.GetByIdentify').html('Not Found');
+                }
+            }
+        });
+    }
+    function SearchAll() {
+        $.ajax({
+            url: '/Home/SearchAll',
+            type: 'POST',
+            data: {
+                search: $('#search').val()
+            },
+            success: function (data) {
+                if (data.ResponseCode == 200) {
+                    console.log(JSON.stringify(data.Data, null, 2))
+                    //$('.GetByIdentify').html(JSON.stringify(data.Data.Source, null, 2));
+                } else {
+                    //$('.GetByIdentify').html('Not Found');
+                }
+            }
+        });
+    }
+</script>
+    
+}
